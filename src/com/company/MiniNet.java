@@ -21,82 +21,18 @@ public class MiniNet {
             if (option == 1) {
                 showAll();
             } else if (option == 2) {
-                System.out.println("Please provide the name of the person");
-                String name = input.next();
-                BasePerson person = driver.findPersonByName(name);
-                if (person != null) {
-                    driver.displayProfile(person);
-                } else {
-                    System.out.println("No person with the name " + name + " was found");
-                }
+                findUser()
             } else if (option == 3) {
-                System.out.println("Please what is the name of the user that you would like to add");
-                String name = input.next();
-                System.out.println("Please what is this person's age");
-                int age = input.nextInt();
-                if (age < 16) {
-                    BasePerson person1 = getParentForChild(name, "Please provide the name of the first parent\nPlease enter '.' to abort");
-                    if (person1 != null) {
-                        BasePerson person2 = getParentForChild(name, "Please provide the name of the second parent\nPlease enter '.' to abort");
-                        if (person2 != null) {
-                            Child child = new Child(name, age, person1, person2);
-                            driver.addPerson(child);
-                        }
-                    }
-                } else {
-                    try {
-                        Parent parent = new Parent(name, age);
-                        driver.addPerson(parent);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
+                addNewUser()
             }
             else if (option == 4){
-                System.out.println("Please provide the name of the person");
-                String name = input.next();
-                BasePerson person = driver.findPersonByName(name);
-                if (person != null){
-                    System.out.println("Please provide the new status");
-                    input.nextLine();
-                    String status = input.nextLine();
-                    person.setStatus(status);
-                    System.out.println("Status updated successfully :)");
-                }
-                else {
-                    System.out.println("User not found");
-                }
+                updateUserStatus()
             }
             else if (option == 5){
-                System.out.println("Please provide the name of the person to delete");
-                String name = input.next();
-                BasePerson person = driver.findPersonByName(name);
-                if (person != null){
-                    boolean result = driver.deletePerson(person);
-                    if (result){
-                        System.out.println("The person was deleted successfully");
-                    }
-                    else {
-                        System.out.println("User could not be deleted");
-                    }
-                }
+                deleteUser();
             }
             else if (option == 6){
-                System.out.println("Please provide the name of the first person");
-                String firstName = input.next();
-                BasePerson firstPerson = driver.findPersonByName(firstName);
-                if (firstPerson != null){
-                    System.out.println("Please provide the name of the second person");
-                    String secondName = input.next();
-                    BasePerson secondPerson = driver.findPersonByName(secondName);
-                    boolean isFriends = driver.areFriend(firstPerson, secondPerson);
-                    if (isFriends){
-                        System.out.println(String.format("%s %s %s %s", firstName, "and ", secondName, " are friends"));
-                    }
-                    else {
-                        System.out.println("These two people are not connected");
-                    }
-                }
+                findConnection();
             }
             else if (option == 0) {
                 System.out.println("Thank you for using my social network");
@@ -107,7 +43,90 @@ public class MiniNet {
             }
         }
     }
+    
+    public static void findUser(){
+        System.out.println("Please provide the name of the person");
+        String name = input.next();
+        BasePerson person = driver.findPersonByName(name);
+        if (person != null) {
+            driver.displayProfile(person);
+        } else {
+            System.out.println("No person with the name " + name + " was found");
+        }
+    }
+    
+    public static void updateUserStatus(){
+        System.out.println("Please provide the name of the person");
+        String name = input.next();
+        BasePerson person = driver.findPersonByName(name);
+        if (person != null){
+            System.out.println("Please provide the new status");
+            input.nextLine();
+            String status = input.nextLine();
+            person.setStatus(status);
+            System.out.println("Status updated successfully :)");
+        }
+        else {
+            System.out.println("User not found");
+        }
+    }
+    
+    public static void addNewUser(){
+        System.out.println("Please what is the name of the user that you would like to add");
+        String name = input.next();
+        System.out.println("Please what is this person's age");
+        int age = input.nextInt();
+        if (age < 16) {
+            BasePerson person1 = getParentForChild(name, "Please provide the name of the first parent\nPlease enter '.' to abort");
+            if (person1 != null) {
+                BasePerson person2 = getParentForChild(name, "Please provide the name of the second parent\nPlease enter '.' to abort");
+                if (person2 != null) {
+                    Child child = new Child(name, age, person1, person2);
+                    driver.addPerson(child);
+                }
+            }
+        } else {
+            try {
+                Parent parent = new Parent(name, age);
+                driver.addPerson(parent);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    
+    public static void deleteUser(){
+        System.out.println("Please provide the name of the person to delete");
+        String name = input.next();
+        BasePerson person = driver.findPersonByName(name);
+        if (person != null){
+            boolean result = driver.deletePerson(person);
+            if (result){
+                System.out.println("The person was deleted successfully");
+            }
+            else {
+                System.out.println("User could not be deleted");
+            }
+        }
+    }
 
+    public static void findConnection(){
+        System.out.println("Please provide the name of the first person");
+        String firstName = input.next();
+        BasePerson firstPerson = driver.findPersonByName(firstName);
+        if (firstPerson != null){
+            System.out.println("Please provide the name of the second person");
+            String secondName = input.next();
+            BasePerson secondPerson = driver.findPersonByName(secondName);
+            boolean isFriends = driver.areFriend(firstPerson, secondPerson);
+            if (isFriends){
+                System.out.println(String.format("%s %s %s %s", firstName, "and ", secondName, " are friends"));
+            }
+            else {
+                System.out.println("These two people are not connected");
+            }
+        }
+    }
 
     public static BasePerson getParentForChild(String name, String dialog) {
         while (true) {
