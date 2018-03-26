@@ -21,12 +21,12 @@ public class MiniNet {
             if (option == 1) {
                 showAll();
             } else if (option == 2) {
-                findUser()
+                findUser();
             } else if (option == 3) {
-                addNewUser()
+                addNewUser();
             }
             else if (option == 4){
-                updateUserStatus()
+                updateUserStatus();
             }
             else if (option == 5){
                 deleteUser();
